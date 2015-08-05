@@ -1,4 +1,3 @@
-'use strict';
 var buffer = require('buffer');
 var _ = require('lodash');
 var { AsyncStorage } = require('react-native');
@@ -18,19 +17,18 @@ class AuthService {
       }
 
       var zippedObj = _.zipObject(results);
-      
       if(!zippedObj[authKey]) {
         return cb();
       }
-      
+
       var authInfo = {
         header: {
           Authorization: 'Basic' + zippedObj[authKey]
         },
         user: JSON.parse(zippedObj[userKey])
       };
-      
-      return cb(null, authInfo); 
+
+      return cb(null, authInfo);
     });
   }
 
@@ -41,7 +39,7 @@ class AuthService {
     fetch('https://api.github.com/user', {
       headers: {
         'Authorization': 'Basic ' + encoded
-      }     
+      }
     })
     .then((response) => {
       if(response.status >= 200 && response.status < 300) {
@@ -59,7 +57,7 @@ class AuthService {
     .then((results) => {
       AsyncStorage.multiSet([
         [authKey, encoded],
-        [userKey, JSON.stringify(results)] 
+        [userKey, JSON.stringify(results)]
       ], (err) => {
         if(err) {
           throw err;

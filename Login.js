@@ -44,17 +44,17 @@ class Login extends Component {
         <Text style={styles.heading}>
           Github Browser
         </Text>
-        <TextInput 
+        <TextInput
           onChangeText={(text) => this.setState({username: text})}
-          style={styles.input} 
+          style={styles.input}
           placeholder="Github username" />
-        <TextInput 
+        <TextInput
           onChangeText={(text) => this.setState({password: text})}
-          style={styles.input} 
+          style={styles.input}
           placeholder="Github password"
           secureTextEntry="true" />
-        <TouchableHighlight 
-          onPress={this.onLoginPressed.bind(this)} 
+        <TouchableHighlight
+          onPress={this.onLoginPressed.bind(this)}
           style={styles.button}>
           <Text style={styles.buttonText}>
             Log in
@@ -69,8 +69,8 @@ class Login extends Component {
           style={styles.loader} />
       </View>
     );
-  }  
-  
+  }
+
   onLoginPressed() {
     console.log('attempting to log in with username: ' + this.state.username);
     this.setState({showProgress: true});
