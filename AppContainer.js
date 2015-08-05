@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Feed = require('./Feed');
 
 var {
   StyleSheet,
@@ -33,7 +34,7 @@ class AppContainer extends Component {
           //icon={require('image!inbox')}
           onPress={() => this.setState({selectedTab: tabs.feed})}
         >
-          <Text style={styles.welcome}>Feed Tab</Text>
+          <Feed />
         </TabBarIOS.Item>
       	<TabBarIOS.Item
           title="Search"
