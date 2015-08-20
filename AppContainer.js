@@ -8,7 +8,8 @@ var {
   Text,
   View,
   Component,
-  TabBarIOS
+  TabBarIOS,
+  NavigatorIOS
 } = React;
 
 var tabs = {
@@ -31,15 +32,22 @@ class AppContainer extends Component {
       	<TabBarIOS.Item
           title="Feed"
           selected={this.state.selectedTab === tabs.feed}
-          //icon={require('image!inbox')}
+          icon={require('image!Download')}
           onPress={() => this.setState({selectedTab: tabs.feed})}
         >
-          <Feed />
+          <NavigatorIOS
+            style={{
+              flex: 1
+            }}
+            initialRoute={{
+              component: Feed,
+              title: 'Feed'
+            }} />
         </TabBarIOS.Item>
       	<TabBarIOS.Item
           title="Search"
           selected={this.state.selectedTab === tabs.search}
-          //icon={require('image!search')}
+          icon={require('image!Search')}
           onPress={() => this.setState({selectedTab: tabs.search})}
         >
           <Text style={styles.welcome}>Search Tab</Text>

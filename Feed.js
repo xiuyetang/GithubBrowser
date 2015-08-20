@@ -7,10 +7,12 @@ var {
   ListView,
   View,
   ActivityIndicatorIOS,
-  Image
+  Image,
+  TouchableHighlight
 } = React;
 
 var AuthService = require('./AuthService');
+var FeedItemDetail = require('./FeedItemDetail');
 var moment = require('moment');
 
 class Feed extends Component {
@@ -53,17 +55,7 @@ class Feed extends Component {
 
   render() {
     if(this.state.showProgress) {
-      return (
-        <View style={{
-          flex: 1,
-          justifyContent: 'center'
-        }}>
-          <ActivityIndicatorIOS
-            style={{alignSelf: 'center'}}
-            animating={true}
-            size="large" />
-        </View>
-      );
+      return this.renderLoading();
     }
     return (
       <View style={{
@@ -77,42 +69,77 @@ class Feed extends Component {
     );
   }
 
-  renderRow(rowData) {
-    console.log(rowData);
+  renderLoading() {
     return (
       <View style={{
         flex: 1,
-        flexDirection: 'row',
-        padding: 20,
-        alignItems: 'center',
-        borderColor: '#D7D7D7',
-        borderBottomWidth: 1
+        justifyContent: 'center'
       }}>
-        <Image source={{uri: rowData.actor.avatar_url}}
-          style={{
-            height: 36,
-            width: 36,
-            borderRadius: 18
-          }} />
-
-        <View style={{
-          paddingLeft: 20
-        }}>
-          <Text style={{}}>
-            {moment(rowData.created_at).fromNow()}
-          </Text>
-          <Text style={{}}>
-            {rowData.type}
-          </Text>
-          <Text style={{}}>
-            {rowData.actor.login}
-          </Text>
-          <Text style={{fontWeight: 600 }}>
-            {rowData.repo.name}
-          </Text>
-        </View>
+        <ActivityIndicatorIOS
+          style={{alignSelf: 'center'}}
+          animating={true}
+          size="large" />
       </View>
     );
+  }
+
+  renderRow(rowData) {
+    console.log(rowData);
+    return (
+      <TouchableHighlight
+        onPress={() => this.pressRow(rowData)}
+        underlayColor='#ddd'
+      >
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          padding: 20,
+          alignItems: 'center',
+          borderColor: '#D7D7D7',
+          borderBottomWidth: 1
+        }}>
+          <Image source={{uri: rowData.actor.avatar_url}}
+            style={{
+              height: 36,
+              width: 36,
+              borderRadius: 18
+            }} />
+
+          {this.renderRowDetails(rowData)}
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  renderRowDetails(rowData) {
+    return (
+      <View style={{
+        paddingLeft: 20
+      }}>
+        <Text style={{}}>
+          {moment(rowData.created_at).fromNow()}
+        </Text>
+        <Text style={{}}>
+          {rowData.type}
+        </Text>
+        <Text style={{}}>
+          {rowData.actor.login}
+        </Text>
+        <Text style={{fontWeight: '600' }}>
+          {rowData.repo.name}
+        </Text>
+      </View>
+    );
+  }
+
+  pressRow(rowData) {
+    this.props.navigator.push({
+      title: rowData.actor.login,
+      component: FeedItemDetail,
+      passProps: {
+        pushEvent: rowData
+      }
+    });
   }
 }
 
